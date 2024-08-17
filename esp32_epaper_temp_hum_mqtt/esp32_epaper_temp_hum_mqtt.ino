@@ -7,7 +7,7 @@
 #include "Epaper_digits.h"
 #include "Temp_Hum_Sensor.h"
 
-#define SLEEP_SECONDS 5
+#define SLEEP_SECONDS 60
 #define HUM_SHOW_SECONDS 2
 #define USE_DISPLAY true
 #define SEND_DATA_WITH_MQTT true
