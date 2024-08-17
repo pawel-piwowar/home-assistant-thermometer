@@ -71,7 +71,6 @@ boolean wifi_reconnect_if_needed() {
   int connectionAttempts = 3;
   while (WiFi.status() != WL_CONNECTED && connectionAttempts >= 0) {
     Serial.println("Connecting to WiFi..");
-    WiFi.disconnect();
     WiFi.begin(my_ssid, my_password);
     connectionAttempts--;
     delay(500);
