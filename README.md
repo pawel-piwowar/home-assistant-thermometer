@@ -63,16 +63,16 @@ temperature is shown next, following with sleep for 10 seconds. This way power c
 
 ## How it works
 Temperature and humidity values are read using simple API provided by [Temp_Hum_Sensor.h](esp32_epaper_temp_hum_mqtt/Temp_Hum_Sensor.h)
-This way it is quite easy to provide implementation for any sensor without modifying main code.
-Then if USE_DISPLAY option is set, value are shown on epaper display. Again dedicated API is used here: [Epaper_digits.h](esp32_epaper_temp_hum_mqtt/Epaper_digits.h)
-This way all details of epaper maintenance are encapsulated in separate implementation code:  [Epaper_digits.cpp](esp32_epaper_temp_hum_mqtt/Epaper_digits.cpp)
-I decided to use custom bitmap fonts for showing 0-9 digits and other symbols (dot, celsius symbol, etc.).
+This way it is quite easy to use implementation for any sensor without modifying main code, e.g. : [Temp_Hum_Sensor_Sht_35.cpp](esp32_epaper_temp_hum_mqtt/Temp_Hum_Sensor_Sht_35.cpp)  
+Then if USE_DISPLAY option is set, temperature/humidity values are shown on epaper display. Again dedicated API is used here: [Epaper_digits.h](esp32_epaper_temp_hum_mqtt/Epaper_digits.h)  
+This way all details of epaper maintenance are encapsulated in separate implementation code:  [Epaper_digits.cpp](esp32_epaper_temp_hum_mqtt/Epaper_digits.cpp)  
+I decided to use custom bitmap fonts for showing 0-9 digits and other symbols (dot, celsius symbol, etc.).  
 The last part is integration with Home Assistant.
 General idea is shown below:
 ![esp32-temp-hum-mqtt.drawio.png](images/esp32-temp-hum-mqtt.drawio.png)
 
-I used this library : https://github.com/dawidchyrzynski/arduino-home-assistant. It sends discovery MQTT messages for all of the sensors
-and actual data, when new reading is made.
+I used this library : https://github.com/dawidchyrzynski/arduino-home-assistant MQTT connection. It sends discovery MQTT messages for all of the sensors.
+This way no YAML configuration is required in HA. It also sends actual data read by sensors as MQTT messages.
 
 Example of discovery MQTT message:  
 ![img.png](images/MQTT_discovery.png)
