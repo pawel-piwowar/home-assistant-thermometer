@@ -32,7 +32,10 @@ Please note, that in case of this board, you will have to solder wires to ESP32 
 ## Home Assistant configuration
 - Install Home Assistant (HA) : https://www.home-assistant.io/installation/ .
 - Install MQTT broker add-on in HA : https://haprofs.com/setting-up-mqtt-mosquitto-broker-home-assistant/
- Use "homeassistant.local" as broker name, remember user and password used for connection, it will be needed later. 
+ Use "homeassistant.local" as broker name, remember user and password used for connection, it will be needed later.
+- Set "Enable Discovery" option in MQTT broker to on. Leave default discovery prefix set to "homeassistant" 
+(This exact prefix is also used by MQTT library)
+![MQTT_enable_discovery.png](images/MQTT_enable_discovery.png)
 - Recommended : install: https://mqtt-explorer.com/ . Test if you can make a connection to MQTT broker
   (it will be also useful later for checking if end device is properly sending MQTT messages) 
 - When everything is installed and thermometer device is operational and starts sending MQTT messages,

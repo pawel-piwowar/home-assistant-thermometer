@@ -15,7 +15,7 @@
 #define BATTERY_LEVEL_PIN 36
 
 // WiFi
-const char *my_ssid = "**REPLACE**";             // Enter your Wi-Fi name
+const char *my_ssid = "**REPLACE**";      // Enter your Wi-Fi name
 const char *my_password = "**REPLACE**";  // Enter Wi-Fi password
 
 // MQTT Broker
@@ -62,21 +62,25 @@ void mqtt_setup() {
   mqtt.begin(my_mqtt_broker, my_mqtt_username, my_mqtt_password);
 }
 
-boolean wifi_reconnect() {
-  if(WiFi.isConnected()){
+boolean wifi_reconnect_if_needed() {
+  Serial.print("Wifi status: ");
+  Serial.println(WiFi.status());
+  if(WiFi.status() == WL_CONNECTED){
     return true;
   }
   int connectionAttempts = 3;
   while (WiFi.status() != WL_CONNECTED && connectionAttempts >= 0) {
     Serial.println("Connecting to WiFi..");
+    WiFi.disconnect();
     WiFi.begin(my_ssid, my_password);
-    if (WiFi.isConnected()) {
-      return true;
-    }
     connectionAttempts--;
     delay(500);
   }
-  return WiFi.isConnected();
+  if (WiFi.status() == WL_CONNECTED) {
+    Serial.print("Connected to WiFi, client ip: ");
+    Serial.println(WiFi.localIP());
+  }
+  return WiFi.status() == WL_CONNECTED;
 }
 
 int8_t get_battery_level_percent(float battery_level){
@@ -108,7 +112,7 @@ void tempAndHum() {
     epaperBigDigits.drawFloat(x, y, temp, TEMPERATURE);
   }
   if (SEND_DATA_WITH_MQTT) {
-    wifi_reconnect();
+    wifi_reconnect_if_needed();
     mqtt.loop();
     tempSensor.setValue(temp);
     humSensor.setValue(hum);
