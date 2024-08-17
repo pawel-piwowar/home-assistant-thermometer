@@ -2,8 +2,8 @@
 
 ## Project features
 - Integrates with Home Assistant using WIFI and MQTT. 
-- High precision temperature sensor SHT35 is used with precision 0.1 - 0.2 °C
-- 2.13inch E-Paper Cloud Module has ESP32 chip and attached battery. The final package is light and small.
+- High quality temperature sensor SHT35 is used with precision 0.1 - 0.2 °C
+- 2.13inch E-Paper Cloud Module with ESP32 chip and attached battery. The final package is light and small.
   Could be used without external power source. Also could be powered and charged via usb-c without any additional circuits
 - Very low power consumption, light sleep mode of ESP32 is used.
 - Partial screen refresh function is used. Screen does not flicker, like it does when full refresh is made.
@@ -32,7 +32,7 @@ Please note, that in case of this board, you will have to solder wires to ESP32 
 ## Home Assistant configuration
 - Install Home Assistant (HA) : https://www.home-assistant.io/installation/ .
 - Install MQTT broker add-on in HA : https://haprofs.com/setting-up-mqtt-mosquitto-broker-home-assistant/
- Use "homeassistant.local" as broker name, note user and password used for connection. 
+ Use "homeassistant.local" as broker name, remember user and password used for connection, it will be needed later. 
 - Recommended : install: https://mqtt-explorer.com/ . Test if you can make a connection to MQTT broker
   (it will be also useful later for checking if end device is properly sending MQTT messages) 
 - When everything is installed and thermometer device is operational and starts sending MQTT messages,
@@ -43,7 +43,7 @@ Please note, that in case of this board, you will have to solder wires to ESP32 
 - Prepare development environment, e.g. Arduino IDE: https://www.arduino.cc/en/software, set correct board, COM port, etc.
 - Enter your WIFI SID and password, MQTT user and password in: [esp32_epaper_temp_hum_mqtt.ino](esp32_epaper_temp_hum_mqtt/esp32_epaper_temp_hum_mqtt.ino)
 - You can also modify other setting, e.g. SLEEP_SECONDS, if you want fast reaction in HA for being able to run automation based on temperature reading.
-- Modify code of [Temp_Hum_Sensor_Sht_35.cpp](esp32_epaper_temp_hum_mqtt/Temp_Hum_Sensor_Sht_35.cpp) if you use different model of sensor
+- Provide your own implementation in place of [Temp_Hum_Sensor_Sht_35.cpp](esp32_epaper_temp_hum_mqtt/Temp_Hum_Sensor_Sht_35.cpp) if you want to use different model of sensor
 - Upload code, check logs in serial monitor
 - Check if new device is visible in HA/settings/Devices and Services/MQTT
 - Then you can add new entities to your dashboard in HA, create automations based on reading, see charts, etc.
@@ -71,7 +71,7 @@ The last part is integration with Home Assistant.
 General idea is shown below:
 ![esp32-temp-hum-mqtt.drawio.png](images/esp32-temp-hum-mqtt.drawio.png)
 
-I used this library : https://github.com/dawidchyrzynski/arduino-home-assistant MQTT connection. It sends discovery MQTT messages for all of the sensors.
+I used this library : https://github.com/dawidchyrzynski/arduino-home-assistant for MQTT connection. It sends discovery MQTT messages for all of the sensors.
 This way no YAML configuration is required in HA. It also sends actual data read by sensors as MQTT messages.
 
 Example of discovery MQTT message:  
